@@ -7,9 +7,11 @@ import com.victor.api.usecase.model.response.PersonEntity
 
 class PersonImplementation : Person {
 
+    private val personDaoResponse :  PersonDaoResponse = PersonDaoResponse()
+
     override fun findAll(): List<PersonEntity> {
 
-        val listPeopleDao : List<PersonDaoResponse> = listOf(PersonDaoResponse(1, "José"))
+        val listPeopleDao = personDaoResponse.findAll()
 
         return PersonDaoMapper.transform(listPeopleDao)
     }
