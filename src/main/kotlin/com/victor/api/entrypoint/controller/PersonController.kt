@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 class PersonController {
 
     @Autowired
-    val personUseCase = PersonUseCase()
+    private lateinit var personUseCase : PersonUseCase
 
 
     @GetMapping("/all")
