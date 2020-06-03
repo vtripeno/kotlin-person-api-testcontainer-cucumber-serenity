@@ -5,9 +5,9 @@ import com.victor.api.dataprovider.repository.PersonRepository
 import com.victor.api.usecase.gateway.Person
 import com.victor.api.usecase.model.response.PersonEntity
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 
-@Component
+@Service("personImplementation")
 class PersonImplementation : Person {
 
     @Autowired
