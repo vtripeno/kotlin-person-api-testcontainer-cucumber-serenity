@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/person")
-class PersonController {
-
-    @Autowired
-    val personUseCase = PersonUseCase()
-
+class PersonController @Autowired constructor(
+        private val personUseCase : PersonUseCase){
 
     @GetMapping("/all")
     fun findAllPeople(): DataModelResponse<List<PersonDataModelResponse>> {

@@ -1,5 +1,7 @@
-package com.victor.api.usecase
+package com.victor.api.entrypoint
 
+import com.victor.api.dataprovider.model.response.Person
+import com.victor.api.dataprovider.repository.PersonRepository
 import com.victor.api.entrypoint.controller.PersonController
 import com.victor.api.usecase.service.PersonUseCase
 import net.serenitybdd.junit.runners.SerenityRunner
@@ -11,7 +13,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -23,40 +26,43 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
+
 @RunWith(SerenityRunner::class)
 @WithTag("Integration")
 @AutoConfigureMockMvc
 @WebMvcTest
 class PersonControllerTest {
 
+    private lateinit var personController : PersonController
+
+    @Mock
+    private lateinit var personUseCase : PersonUseCase
+
+    @MockBean
+    private lateinit var personRepository: PersonRepository
+
     @Autowired
-    private lateinit var mvc: MockMvc
+    private lateinit var mockMvc: MockMvc
 
     @Rule @JvmField
     var springMethodIntegration = SpringIntegrationMethodRule()
 
-    @InjectMocks
-    lateinit var personController : PersonController
-
-    @MockBean
-    lateinit var personUseCase: PersonUseCase
-
     @Before
     fun init() {
         MockitoAnnotations.initMocks(this)
+        personController = PersonController(personUseCase)
     }
 
     @Test
-    fun `integration success`() {
-//        `when`(listOf(PersonDaoResponse(anyLong(), anyString()))).thenReturn(listOf(PersonDaoResponse(999, "Zé")))
-//        given(listOf(PersonDaoResponse(anyLong(), anyString()))).willReturn(listOf(PersonDaoResponse(999, "Zé")))
+    fun `test should return  success for findAll persons`() {
+        `when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstname = "Zé")))
 
-        val result: ResultActions = this.mvc.perform(
+        val result: ResultActions = this.mockMvc.perform(
                 MockMvcRequestBuilders.get("/person/all"))
 
         Assert.assertNotNull(result);
         result.andExpect(status().isOk)
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0]", Matchers.`is`("")))
-
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].personId", Matchers.`is`("999")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].name", Matchers.`is`("Zé")))
     }
 }
