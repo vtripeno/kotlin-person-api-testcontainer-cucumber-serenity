@@ -1,4 +1,4 @@
-package com.victor.api.usecase
+package com.victor.api.entrypoint
 
 import com.victor.api.dataprovider.model.response.Person
 import com.victor.api.dataprovider.repository.PersonRepository
