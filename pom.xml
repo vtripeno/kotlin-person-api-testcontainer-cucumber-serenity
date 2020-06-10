@@ -24,6 +24,7 @@
         <serenity.jbehave.version>1.46.0</serenity.jbehave.version>
         <jbehave.core.version>4.6.1</jbehave.core.version>
         <maven.surefire.plugin.version>3.0.0-M4</maven.surefire.plugin.version>
+        <serenity.cucumber.version>1.9.51</serenity.cucumber.version>
     </properties>
 
 
@@ -118,6 +119,17 @@
             <artifactId>nosqlunit-mongodb</artifactId>
             <version>0.7.6</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>spring-mock-mvc</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-cucumber</artifactId>
+            <version>${serenity.cucumber.version}</version>
         </dependency>
 
     </dependencies>
