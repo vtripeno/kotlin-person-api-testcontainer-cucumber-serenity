@@ -8,13 +8,11 @@ import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import io.restassured.module.mockmvc.RestAssuredMockMvc
-import net.serenitybdd.cucumber.CucumberWithSerenity
 import net.serenitybdd.junit.spring.integration.SpringIntegrationMethodRule
 import org.hamcrest.Matchers
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
-import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
@@ -28,7 +26,6 @@ import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
-@RunWith(CucumberWithSerenity::class)
 @ContextConfiguration
 @AutoConfigureMockMvc
 @WebMvcTest
