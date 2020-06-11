@@ -21,9 +21,8 @@
         <java.version>1.8</java.version>
         <kotlin.version>1.3.61</kotlin.version>
         <serenity.version>2.0.91</serenity.version>
-        <serenity.jbehave.version>1.46.0</serenity.jbehave.version>
-        <jbehave.core.version>4.6.1</jbehave.core.version>
         <maven.surefire.plugin.version>3.0.0-M4</maven.surefire.plugin.version>
+        <serenity.cucumber.version>1.9.51</serenity.cucumber.version>
     </properties>
 
 
@@ -66,20 +65,28 @@
 
         <!-- TESTS -->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>spring-mock-mvc</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- SERENITY -->
+        <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-core</artifactId>
             <version>${serenity.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.cucumber</groupId>
+                    <artifactId>cucumber-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>net.serenity-bdd</groupId>
@@ -93,20 +100,25 @@
             <version>${serenity.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>net.serenity-bdd</groupId>
-            <artifactId>serenity-jbehave</artifactId>
-            <version>${serenity.jbehave.version}</version>
-            <scope>test</scope>
+            <artifactId>serenity-cucumber</artifactId>
+            <version>${serenity.cucumber.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jbehave</groupId>
-            <artifactId>jbehave-core</artifactId>
-            <version>${jbehave.core.version}</version>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-screenplay</artifactId>
+            <version>${serenity.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.cucumber</groupId>
+                    <artifactId>cucumber-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
+        <!-- DATABASETEST -->
         <dependency>
             <groupId>com.github.fakemongo</groupId>
             <artifactId>fongo</artifactId>
@@ -118,6 +130,11 @@
             <artifactId>nosqlunit-mongodb</artifactId>
             <version>0.7.6</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
     </dependencies>
@@ -201,6 +218,11 @@
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
+                    <forkCount>10</forkCount>
+                    <reuseForks>true</reuseForks>
+                    <includes>
+                        <include>**/**.class</include>
+                    </includes>
                 </configuration>
             </plugin>
             <plugin>
@@ -213,6 +235,26 @@
                             <goal>integration-test</goal>
                             <goal>verify</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.temyers</groupId>
+                <artifactId>cucumber-jvm-parallel-plugin</artifactId>
+                <version>5.0.0</version>
+                <executions>
+                    <execution>
+                        <id>generateRunners</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generateRunners</goal>
+                        </goals>
+                        <configuration>
+                            <glue>com.victor.api.cucumber</glue>
+                            <featuresDirectory>src/test/resources/features</featuresDirectory>
+                            <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
+                            <format>json,html</format>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
