@@ -56,7 +56,7 @@ class FindAllPersonsHistory {
 
     @Given("a person endpoint to bring all persons")
     fun personEndpoint() {
-        Mockito.`when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstname = "Zé")))
+        Mockito.`when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstname = "Zé", lastname = "Mané")))
         this.result = this.mockMvc.perform(
                 MockMvcRequestBuilders.get("/person/all"))
     }
@@ -71,6 +71,6 @@ class FindAllPersonsHistory {
     fun verifyListOfAllPersons() {
         this.result
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].personId", Matchers.`is`("999")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].name", Matchers.`is`("Zé")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].name", Matchers.`is`("Zé Mané")))
     }
 }

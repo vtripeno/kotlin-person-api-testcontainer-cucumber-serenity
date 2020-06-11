@@ -55,7 +55,7 @@ class PersonControllerTest {
 
     @Test
     fun `test should return  success for findAll persons`() {
-        `when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstname = "Zé")))
+        `when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstname = "Zé", lastname = "Mané")))
 
         val result: ResultActions = this.mockMvc.perform(
                 MockMvcRequestBuilders.get("/person/all"))
@@ -63,6 +63,6 @@ class PersonControllerTest {
         Assert.assertNotNull(result)
         result.andExpect(status().isOk)
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].personId", Matchers.`is`("999")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].name", Matchers.`is`("Zé")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].name", Matchers.`is`("Zé Mané")))
     }
 }
