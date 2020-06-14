@@ -11,9 +11,9 @@ internal class PersonDaoMapper {
             var people = mutableListOf<PersonEntity>()
 
             for (person: Person in peopleDaoReponse) {
-                val fullName = StringBuilder(person.firstname)
+                val fullName = StringBuilder(person.firstName)
                                         .append(" ")
-                                        .append(person.lastname).toString()
+                                        .append(person.lastName).toString()
                 people.add(PersonEntity(person.id, fullName))
             }
 

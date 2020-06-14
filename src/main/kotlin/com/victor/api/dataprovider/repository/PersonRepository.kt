@@ -2,8 +2,8 @@ package com.victor.api.dataprovider.repository
 
 import com.victor.api.dataprovider.model.response.Person
 import org.springframework.data.mongodb.repository.MongoRepository
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Repository
 
-@Service
-internal interface PersonRepository: MongoRepository<Person, String> {
+@Repository
+interface PersonRepository: MongoRepository<Person, String> {
 }

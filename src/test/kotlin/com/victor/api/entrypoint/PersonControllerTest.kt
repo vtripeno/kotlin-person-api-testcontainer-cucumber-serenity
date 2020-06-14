@@ -1,5 +1,7 @@
 package com.victor.api.entrypoint
 
+import com.victor.api.Application
+import com.victor.api.dataprovider.implementation.PersonServiceImpl
 import com.victor.api.dataprovider.model.response.Person
 import com.victor.api.dataprovider.repository.PersonRepository
 import com.victor.api.entrypoint.controller.PersonController
@@ -17,45 +19,69 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.testcontainers.containers.GenericContainer
+import org.testcontainers.images.builder.ImageFromDockerfile
+import java.io.File
 
 
 @RunWith(SerenityRunner::class)
 @WithTag("Integration")
 @AutoConfigureMockMvc
-@WebMvcTest
+//@WebMvcTest
+@ContextConfiguration(classes = [Application::class])
+@ActiveProfiles("test")
+@EnableAutoConfiguration
 class PersonControllerTest {
+
+    @get:Rule
+    var springMethodIntegration = SpringIntegrationMethodRule()
+
+    val dockerFilePath : File = File("docker/mongodb-test.dockerfile")
+
+    @get:Rule
+    var mongo: GenericContainer<*> = GenericContainer<Nothing>(
+            ImageFromDockerfile()
+                    .withDockerfile(dockerFilePath.toPath())
+    ).withExposedPorts(27017)
+
+//    @Autowired
+    private lateinit var mockMvc: MockMvc
 
     private lateinit var personController : PersonController
 
-    @Mock
+    private lateinit var personServiceImpl: PersonServiceImpl
+
+//    @Mock
     private lateinit var personUseCase : PersonUseCase
 
     @MockBean
+//    @Autowired
     private lateinit var personRepository: PersonRepository
-
-    @Autowired
-    private lateinit var mockMvc: MockMvc
-
-    @Rule @JvmField
-    var springMethodIntegration = SpringIntegrationMethodRule()
 
     @Before
     fun init() {
         MockitoAnnotations.initMocks(this)
+        personServiceImpl = PersonServiceImpl(personRepository)
+        personUseCase = PersonUseCase(personServiceImpl)
         personController = PersonController(personUseCase)
+        mockMvc = MockMvcBuilders.standaloneSetup(personController).build();
     }
 
     @Test
     fun `test should return  success for findAll persons`() {
-        `when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstname = "Zé", lastname = "Mané")))
+        `when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstName = "Zé", lastName = "Mané")))
 
         val result: ResultActions = this.mockMvc.perform(
                 MockMvcRequestBuilders.get("/person/all"))

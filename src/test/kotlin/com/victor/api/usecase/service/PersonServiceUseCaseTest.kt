@@ -1,6 +1,6 @@
 package com.victor.api.usecase.service
 
-import com.victor.api.usecase.gateway.Person
+import com.victor.api.usecase.gateway.PersonService
 import com.victor.api.usecase.model.response.PersonEntity
 import net.serenitybdd.junit.runners.SerenityRunner
 import net.serenitybdd.junit.spring.integration.SpringIntegrationMethodRule
@@ -16,26 +16,25 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(SerenityRunner::class)
 @WithTag("Unity")
-class PersonUseCaseTest {
+class PersonServiceUseCaseTest {
 
     private lateinit var personUseCase: PersonUseCase
 
     @Mock
-    private lateinit var personImplementation: Person
+    private lateinit var personServiceImplementation: PersonService
 
-    @Rule
-    @JvmField
+    @get:Rule
     var springMethodIntegration = SpringIntegrationMethodRule()
 
     @Before
     fun init() {
         MockitoAnnotations.initMocks(this)
-        personUseCase = PersonUseCase(personImplementation)
+        personUseCase = PersonUseCase(personServiceImplementation)
     }
 
     @Test
     fun `test should return success for the use case class`() {
-        `when`(personImplementation.findAll()).thenReturn(listOf(PersonEntity(id = "999", name = "Zé Mané")))
+        `when`(personServiceImplementation.findAll()).thenReturn(listOf(PersonEntity(id = "999", name = "Zé Mané")))
 
         var personEntity = personUseCase.findAll()
 
