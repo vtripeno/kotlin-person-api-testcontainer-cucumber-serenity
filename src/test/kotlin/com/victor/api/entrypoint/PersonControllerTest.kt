@@ -82,6 +82,6 @@ class PersonControllerTest {
         Assert.assertNotNull(result)
         result.andExpect(status().isOk)
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].personId", Matchers.`is`("999")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].name", Matchers.`is`("Zé Mané")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].name", Matchers.`is`("Victor Tripeno")))
     }
 }

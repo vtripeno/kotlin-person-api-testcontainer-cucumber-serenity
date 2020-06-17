@@ -5,11 +5,12 @@ This project is for study the Kotlin + Spring Boot behaviour integrated with Ser
 ## Stacks
 - Kotlin
 - Spring Boot
-- MongoDb
+- MongoDB
 - Serenity
 - Junit
 - Cucumber
 - TestContainer
+- Maven
 
 
 To run the tests you can execute the command
