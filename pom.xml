@@ -51,18 +51,15 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -128,25 +125,6 @@
             </exclusions>
         </dependency>
 
-        <!-- DATABASETEST -->
-        <!--        <dependency>-->
-        <!--            <groupId>de.flapdoodle.embed</groupId>-->
-        <!--            <artifactId>de.flapdoodle.embed.mongo</artifactId>-->
-        <!--            <scope>test</scope>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.github.fakemongo</groupId>-->
-        <!--            <artifactId>fongo</artifactId>-->
-        <!--            <version>2.2.0-RC2</version>-->
-        <!--            <scope>test</scope>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.lordofthejars</groupId>-->
-        <!--            <artifactId>nosqlunit-mongodb</artifactId>-->
-        <!--            <version>0.7.6</version>-->
-        <!--            <scope>test</scope>-->
-        <!--        </dependency>-->
-
         <!-- Testcontainers -->
         <dependency>
             <groupId>org.testcontainers</groupId>
@@ -154,14 +132,6 @@
             <version>1.14.3</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>mongodb</artifactId>
-            <version>1.14.3</version>
-            <scope>test</scope>
-        </dependency>
-
-
     </dependencies>
 
     <build>

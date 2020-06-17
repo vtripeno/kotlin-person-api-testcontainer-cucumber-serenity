@@ -2,8 +2,8 @@ db = db.getSiblingDB('mycollection');
 
 db.person.insert(
   {
-    "_id" : 1,
-    "firstname" : "TEste",
-    "lastname" : "USER"
+    "_id" : "999",
+    "firstName" : "Zé",
+    "lastName" : "Mané"
   }
 );

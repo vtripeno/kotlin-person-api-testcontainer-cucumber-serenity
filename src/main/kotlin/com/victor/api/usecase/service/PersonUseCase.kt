@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-    class PersonUseCase @Autowired constructor(private val personService : PersonService){
+class PersonUseCase @Autowired constructor(private val personService : PersonService){
 
     fun findAll(): List<PersonEntity> {
         return personService.findAll()

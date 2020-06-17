@@ -2,7 +2,6 @@ package com.victor.api.entrypoint
 
 import com.victor.api.Application
 import com.victor.api.dataprovider.implementation.PersonServiceImpl
-import com.victor.api.dataprovider.model.response.Person
 import com.victor.api.dataprovider.repository.PersonRepository
 import com.victor.api.entrypoint.controller.PersonController
 import com.victor.api.usecase.service.PersonUseCase
@@ -15,14 +14,11 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
@@ -39,35 +35,34 @@ import java.io.File
 @RunWith(SerenityRunner::class)
 @WithTag("Integration")
 @AutoConfigureMockMvc
-//@WebMvcTest
 @ContextConfiguration(classes = [Application::class])
 @ActiveProfiles("test")
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude = [HibernateJpaAutoConfiguration::class])
 class PersonControllerTest {
+
+    companion object {
+        val dockerFilePath : File = File("docker/mongodb-test.dockerfile")
+        var mongodbContainer: GenericContainer<*> = GenericContainer<Nothing>(
+                ImageFromDockerfile()
+                        .withDockerfile(dockerFilePath.toPath())
+        ).withExposedPorts(27017)
+    }
+
+    init {
+        mongodbContainer.start()
+        System.setProperty("spring.data.mongodb.uri",
+                "mongodb://${mongodbContainer.getContainerIpAddress()}:${mongodbContainer.getMappedPort(27017)}/mycollection")
+    }
 
     @get:Rule
     var springMethodIntegration = SpringIntegrationMethodRule()
 
-    val dockerFilePath : File = File("docker/mongodb-test.dockerfile")
-
-    @get:Rule
-    var mongo: GenericContainer<*> = GenericContainer<Nothing>(
-            ImageFromDockerfile()
-                    .withDockerfile(dockerFilePath.toPath())
-    ).withExposedPorts(27017)
-
-//    @Autowired
     private lateinit var mockMvc: MockMvc
-
     private lateinit var personController : PersonController
-
     private lateinit var personServiceImpl: PersonServiceImpl
-
-//    @Mock
     private lateinit var personUseCase : PersonUseCase
 
-    @MockBean
-//    @Autowired
+    @Autowired
     private lateinit var personRepository: PersonRepository
 
     @Before
@@ -76,13 +71,11 @@ class PersonControllerTest {
         personServiceImpl = PersonServiceImpl(personRepository)
         personUseCase = PersonUseCase(personServiceImpl)
         personController = PersonController(personUseCase)
-        mockMvc = MockMvcBuilders.standaloneSetup(personController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(personController).build()
     }
 
     @Test
     fun `test should return  success for findAll persons`() {
-        `when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstName = "Zé", lastName = "Mané")))
-
         val result: ResultActions = this.mockMvc.perform(
                 MockMvcRequestBuilders.get("/person/all"))
 
