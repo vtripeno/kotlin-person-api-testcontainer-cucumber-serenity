@@ -10,7 +10,10 @@ internal class PersonDataModelResponseMapper {
             var people = mutableListOf<PersonDataModelResponse>()
 
             for (person: PersonEntity in peopleEntity) {
-                people.add(PersonDataModelResponse(person.id, person.name))
+                val fullName = StringBuilder(person.firstName)
+                        .append(" ")
+                        .append(person.lastName).toString()
+                people.add(PersonDataModelResponse(person.id, fullName))
             }
 
             return people

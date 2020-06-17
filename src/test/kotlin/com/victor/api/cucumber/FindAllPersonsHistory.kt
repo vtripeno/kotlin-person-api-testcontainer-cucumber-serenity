@@ -56,7 +56,7 @@ class FindAllPersonsHistory {
 
     @Given("a person endpoint to bring all persons")
     fun personEndpoint() {
-        Mockito.`when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstname = "Zé", lastname = "Mané")))
+        Mockito.`when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstName = "Zé", lastName = "Mané")))
         this.result = this.mockMvc.perform(
                 MockMvcRequestBuilders.get("/person/all"))
     }
