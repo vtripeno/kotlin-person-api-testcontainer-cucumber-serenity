@@ -7,10 +7,11 @@ This project is for study the Kotlin + Spring Boot behaviour integrated with Ser
 - Spring Boot
 - MongoDB
 - Serenity
-- Junit
+- Junit 4
 - Cucumber
 - TestContainer
 - Maven
+- Archtest
 
 
 To run the tests you can execute the command
