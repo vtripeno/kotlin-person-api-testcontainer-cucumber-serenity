@@ -6,6 +6,7 @@ import com.victor.api.dataprovider.repository.PersonRepository
 import net.serenitybdd.junit.runners.SerenityRunner
 import net.serenitybdd.junit.spring.integration.SpringIntegrationMethodRule
 import net.thucydides.core.annotations.WithTag
+import org.amshove.kluent.`should be equal to`
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -45,5 +46,14 @@ class PersonServiceImplTest {
         Assert.assertEquals("999", persons[0].id)
         Assert.assertEquals("Victor", persons[0].firstName)
         Assert.assertEquals("Tripeno", persons[0].lastName)
+    }
+
+    @Test
+    fun `test should return correct data from database kluent`() {
+        Mockito.`when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstName = "Victor", lastName = "Tripeno")))
+        val persons = personServiceImpl.findAll()
+        persons[0].id `should be equal to` "999"
+        persons[0].firstName `should be equal to` "Victor"
+        persons[0].lastName `should be equal to` "Tripeno"
     }
 }
