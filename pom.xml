@@ -92,7 +92,6 @@
             <scope>test</scope>
         </dependency>
 
-
         <!-- SERENITY -->
         <dependency>
             <groupId>net.serenity-bdd</groupId>
