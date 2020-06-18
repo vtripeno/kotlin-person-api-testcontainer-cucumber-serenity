@@ -40,10 +40,10 @@ class PersonServiceImplTest {
 
     @Test
     fun `test should return correct data from database`() {
-        Mockito.`when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstName = "Zé", lastName = "Mané")))
+        Mockito.`when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstName = "Victor", lastName = "Tripeno")))
         val persons = personServiceImpl.findAll()
         Assert.assertEquals("999", persons[0].id)
-        Assert.assertEquals("Zé", persons[0].firstName)
-        Assert.assertEquals("Mané", persons[0].lastName)
+        Assert.assertEquals("Victor", persons[0].firstName)
+        Assert.assertEquals("Tripeno", persons[0].lastName)
     }
 }

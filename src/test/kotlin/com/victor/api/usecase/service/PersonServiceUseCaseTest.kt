@@ -34,13 +34,13 @@ class PersonServiceUseCaseTest {
 
     @Test
     fun `test should return success for the use case class`() {
-        `when`(personServiceImplementation.findAll()).thenReturn(listOf(PersonEntity(id = "999", firstName = "Zé", lastName = "Mané")))
+        `when`(personServiceImplementation.findAll()).thenReturn(listOf(PersonEntity(id = "999", firstName = "Victor", lastName = "Tripeno")))
 
         var personEntity = personUseCase.findAll()
 
         assertEquals("999", personEntity.get(0).id)
-        assertEquals("Zé", personEntity.get(0).firstName)
-        assertEquals("Mané", personEntity.get(0).lastName)
+        assertEquals("Victor", personEntity.get(0).firstName)
+        assertEquals("Tripeno", personEntity.get(0).lastName)
     }
 
 

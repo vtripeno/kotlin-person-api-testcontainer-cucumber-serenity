@@ -59,7 +59,11 @@ class PersonControllerTest {
 
     private lateinit var mockMvc: MockMvc
     private lateinit var personController : PersonController
+
+    @Autowired
     private lateinit var personServiceImpl: PersonServiceImpl
+
+    @Autowired
     private lateinit var personUseCase : PersonUseCase
 
     @Autowired
@@ -68,8 +72,6 @@ class PersonControllerTest {
     @Before
     fun init() {
         MockitoAnnotations.initMocks(this)
-        personServiceImpl = PersonServiceImpl(personRepository)
-        personUseCase = PersonUseCase(personServiceImpl)
         personController = PersonController(personUseCase)
         mockMvc = MockMvcBuilders.standaloneSetup(personController).build()
     }
@@ -82,6 +84,6 @@ class PersonControllerTest {
         Assert.assertNotNull(result)
         result.andExpect(status().isOk)
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].personId", Matchers.`is`("999")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].name", Matchers.`is`("Zé Mané")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].name", Matchers.`is`("Victor Tripeno")))
     }
 }
