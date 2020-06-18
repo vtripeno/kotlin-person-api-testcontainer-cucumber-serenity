@@ -12,6 +12,7 @@ This project is for study the Kotlin + Spring Boot behaviour integrated with Ser
 - TestContainer
 - Maven
 - Archtest
+- Kluent
 
 
 To run the tests you can execute the command
