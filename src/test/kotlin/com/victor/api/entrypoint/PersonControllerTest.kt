@@ -1,8 +1,6 @@
 package com.victor.api.entrypoint
 
 import com.victor.api.Application
-import com.victor.api.dataprovider.implementation.PersonServiceImpl
-import com.victor.api.dataprovider.repository.PersonRepository
 import com.victor.api.entrypoint.controller.PersonController
 import com.victor.api.usecase.service.PersonUseCase
 import net.serenitybdd.junit.runners.SerenityRunner
@@ -14,7 +12,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
@@ -61,17 +58,10 @@ class PersonControllerTest {
     private lateinit var personController : PersonController
 
     @Autowired
-    private lateinit var personServiceImpl: PersonServiceImpl
-
-    @Autowired
     private lateinit var personUseCase : PersonUseCase
-
-    @Autowired
-    private lateinit var personRepository: PersonRepository
 
     @Before
     fun init() {
-        MockitoAnnotations.initMocks(this)
         personController = PersonController(personUseCase)
         mockMvc = MockMvcBuilders.standaloneSetup(personController).build()
     }

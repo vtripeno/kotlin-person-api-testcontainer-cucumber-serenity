@@ -7,14 +7,13 @@ internal class PersonDaoMapper {
 
     companion object {
 
-        fun transform(peopleDaoReponse: List<Person>): List<PersonEntity> {
-            var people = mutableListOf<PersonEntity>()
-
-            for (person: Person in peopleDaoReponse) {
-                people.add(PersonEntity(person.id, person.firstName, person.lastName))
-            }
-
-            return people
+        fun transform(people: List<Person>): List<PersonEntity> {
+            return people.map ( ::toPersonEntity )
         }
+
+        private fun toPersonEntity(person: Person): PersonEntity {
+            return PersonEntity(person.id, person.firstName, person.lastName)
+        }
+
     }
 }
