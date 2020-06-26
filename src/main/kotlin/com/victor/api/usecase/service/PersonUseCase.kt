@@ -8,7 +8,5 @@ import org.springframework.stereotype.Component
 @Component
 class PersonUseCase @Autowired constructor(private val personService : PersonService){
 
-    fun findAll(): List<PersonEntity> {
-        return personService.findAll()
-    }
+    fun findAll(): List<PersonEntity> = personService.findAll()
 }

@@ -37,7 +37,7 @@ mvn clean verify
 ```
 or
 ```shell script
- gradle clean test aggregate
+gradle clean test aggregate
 ```
 or
 ```shell script
