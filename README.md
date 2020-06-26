@@ -15,6 +15,7 @@ This project is for study the Kotlin + Spring Boot behaviour integrated with Ser
 - **Archtest**: To test whether the architecture is being respected
 - **Kluent**: To give more easily read for tests assertion
 - **Jacoco**: To give reports about code coverage
+- **MockK**: To mock what is necessary for the test
 
 
 To run the tests you can execute the command
@@ -37,7 +38,7 @@ mvn clean verify
 ```
 or
 ```shell script
- gradle clean test aggregate
+gradle clean test aggregate
 ```
 or
 ```shell script

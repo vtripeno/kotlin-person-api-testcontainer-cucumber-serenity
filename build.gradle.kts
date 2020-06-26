@@ -74,6 +74,8 @@ dependencies {
         exclude("module:cucumber-core")
     }
     testImplementation("org.testcontainers:testcontainers:${testContainerVersion}")
+    testImplementation("com.ninja-squad:springmockk:1.1.3")
+    testImplementation("io.mockk:mockk:1.9.3")
 }
 
 fun ignorePackagesInJacoco(classDirectories: ConfigurableFileCollection) {

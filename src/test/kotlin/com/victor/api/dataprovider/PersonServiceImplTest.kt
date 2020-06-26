@@ -3,6 +3,10 @@ package com.victor.api.dataprovider
 import com.victor.api.dataprovider.implementation.PersonServiceImpl
 import com.victor.api.dataprovider.model.response.Person
 import com.victor.api.dataprovider.repository.PersonRepository
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.verify
 import net.serenitybdd.junit.runners.SerenityRunner
 import net.serenitybdd.junit.spring.integration.SpringIntegrationMethodRule
 import net.thucydides.core.annotations.WithTag
@@ -12,7 +16,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
@@ -33,15 +37,19 @@ class PersonServiceImplTest {
     @MockBean
     private lateinit var personRepository: PersonRepository
 
+    @MockK
+    private lateinit var personRepositoryMocK: PersonRepository
+
     @Before
     fun init() {
+        MockKAnnotations.init(this)
         MockitoAnnotations.initMocks(this)
         personServiceImpl = PersonServiceImpl(personRepository)
     }
 
     @Test
     fun `test should return correct data from database`() {
-        Mockito.`when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstName = "Victor", lastName = "Tripeno")))
+        `when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstName = "Victor", lastName = "Tripeno")))
         val persons = personServiceImpl.findAll()
         Assert.assertEquals("999", persons[0].id)
         Assert.assertEquals("Victor", persons[0].firstName)
@@ -50,10 +58,24 @@ class PersonServiceImplTest {
 
     @Test
     fun `test should return correct data from database kluent`() {
-        Mockito.`when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstName = "Victor", lastName = "Tripeno")))
+        `when`(personRepository.findAll()).thenReturn(listOf(Person(id = "999", firstName = "Victor", lastName = "Tripeno")))
         val persons = personServiceImpl.findAll()
         persons[0].id `should be equal to` "999"
         persons[0].firstName `should be equal to` "Victor"
         persons[0].lastName `should be equal to` "Tripeno"
+    }
+
+    @Test
+    fun `test should return correct data from database mockK`() {
+        val personServiceImplementation = PersonServiceImpl(personRepositoryMocK)
+
+        every { personRepositoryMocK.findAll() } returns listOf(Person(id = "999", firstName = "Victor", lastName = "Tripeno"))
+
+        val persons = personServiceImplementation.findAll()
+        persons[0].id `should be equal to` "999"
+        persons[0].firstName `should be equal to` "Victor"
+        persons[0].lastName `should be equal to` "Tripeno"
+
+        verify(exactly = 1) { personRepositoryMocK.findAll() }
     }
 }

@@ -15,9 +15,8 @@ class PersonController @Autowired constructor(
         private val personUseCase : PersonUseCase){
 
     @GetMapping("/all")
-    fun findAllPeople(): DataModelResponse<List<PersonDataModelResponse>> {
-        return DataModelResponse(
+    fun findAllPeople(): DataModelResponse<List<PersonDataModelResponse>> =
+            DataModelResponse(
                 PersonDataModelResponseMapper.transform(personUseCase.findAll()))
-    }
 
 }
