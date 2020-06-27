@@ -4,9 +4,6 @@ import com.victor.api.dataprovider.implementation.PersonServiceImpl
 import com.victor.api.dataprovider.model.response.Person
 import com.victor.api.dataprovider.repository.PersonRepository
 import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import io.mockk.verify
 import net.serenitybdd.junit.runners.SerenityRunner
 import net.serenitybdd.junit.spring.integration.SpringIntegrationMethodRule
 import net.thucydides.core.annotations.WithTag

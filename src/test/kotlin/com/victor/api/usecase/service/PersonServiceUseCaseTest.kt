@@ -1,7 +1,5 @@
 package com.victor.api.usecase.service
 
-import com.victor.api.dataprovider.implementation.PersonServiceImpl
-import com.victor.api.dataprovider.model.response.Person
 import com.victor.api.usecase.gateway.PersonService
 import com.victor.api.usecase.model.response.PersonEntity
 import io.mockk.every
