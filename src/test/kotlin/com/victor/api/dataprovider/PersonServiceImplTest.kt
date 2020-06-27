@@ -37,9 +37,6 @@ class PersonServiceImplTest {
     @MockBean
     private lateinit var personRepository: PersonRepository
 
-    @MockK
-    private lateinit var personRepositoryMocK: PersonRepository
-
     @Before
     fun init() {
         MockKAnnotations.init(this)
@@ -65,17 +62,4 @@ class PersonServiceImplTest {
         persons[0].lastName `should be equal to` "Tripeno"
     }
 
-    @Test
-    fun `test should return correct data from database mockK`() {
-        val personServiceImplementation = PersonServiceImpl(personRepositoryMocK)
-
-        every { personRepositoryMocK.findAll() } returns listOf(Person(id = "999", firstName = "Victor", lastName = "Tripeno"))
-
-        val persons = personServiceImplementation.findAll()
-        persons[0].id `should be equal to` "999"
-        persons[0].firstName `should be equal to` "Victor"
-        persons[0].lastName `should be equal to` "Tripeno"
-
-        verify(exactly = 1) { personRepositoryMocK.findAll() }
-    }
 }
