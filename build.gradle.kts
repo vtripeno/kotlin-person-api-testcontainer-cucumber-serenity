@@ -49,6 +49,8 @@ val mockMvcVersion = "3.3.0"
 val archUniteVersion = "0.14.1"
 val kluentVersion = "1.61"
 val testContainerVersion = "1.14.3"
+val springMockKVersion = "1.1.3"
+val mockKVersion = "1.9.3"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mustache:${springVersion}")
@@ -74,8 +76,8 @@ dependencies {
         exclude("module:cucumber-core")
     }
     testImplementation("org.testcontainers:testcontainers:${testContainerVersion}")
-    testImplementation("com.ninja-squad:springmockk:1.1.3")
-    testImplementation("io.mockk:mockk:1.9.3")
+    testImplementation("com.ninja-squad:springmockk:${springMockKVersion}")
+    testImplementation("io.mockk:mockk:${mockKVersion}")
 }
 
 fun ignorePackagesInJacoco(classDirectories: ConfigurableFileCollection) {
@@ -126,5 +128,4 @@ tasks.test {
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
 }
-
 
